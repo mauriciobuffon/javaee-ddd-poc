@@ -1,0 +1,17 @@
+# maven
+target/
+
+# netbeans
+nb-configuration.xml
+nbproject/
+
+# eclipse
+.classpath
+.project
+.settings/
+
+# vs code
+.classpath
+.project
+.settings/
+.factorypath

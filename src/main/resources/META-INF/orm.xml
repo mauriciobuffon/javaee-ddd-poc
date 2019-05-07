@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+
+    <persistence-unit-metadata>
+        <!--<xml-mapping-metadata-complete/>-->
+    </persistence-unit-metadata>
+
+    <package>br.com.webit.dddpoc.domain</package>
+    <access>FIELD</access>
+
+    <embeddable class="ValorObjeto"/>
+
+    <embeddable class="AgregadorId">
+        <attributes>
+            <basic name="id" optional="false"/>
+        </attributes>
+    </embeddable>
+
+    <entity class="Agregador">
+        <attributes>
+            <embedded-id name="agregadorId"/>
+            <one-to-many name="entidades" fetch="EAGER">
+                <!-- PARA EVITAR O JOIN TABLE ENTRE AGREGADOR E ENTIDADE -->
+                <join-column name="agregador_id"/>
+                <cascade>
+                    <cascade-persist/>
+                </cascade>
+            </one-to-many>
+            <element-collection name="objetos" fetch="EAGER"/>
+            <embedded name="objeto"/>
+            <version name="version"/>
+        </attributes>
+    </entity>
+
+    <embeddable class="EntidadeId">
+        <attributes>
+            <embedded name="agregadorId">
+                <attribute-override name="id">
+                    <column name="agregador_id"/>
+                </attribute-override>
+            </embedded>
+            <basic name="id" optional="false"/>
+        </attributes>
+    </embeddable>
+
+    <entity class="Entidade">
+        <attributes>
+            <embedded-id name="entidadeId"/>
+            <many-to-one name="agregador" maps-id="agregadorId"/>
+            <element-collection name="objetos" fetch="EAGER"/>
+            <embedded name="objeto"/>
+            <version name="version"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>
