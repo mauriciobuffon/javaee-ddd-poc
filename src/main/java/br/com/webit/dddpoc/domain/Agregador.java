@@ -9,15 +9,11 @@ import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 @Entity
-@NamedQuery(name = Agregador.FIND_ALL, query = "SELECT a FROM Agregador a ORDER BY a.agregadorId.id ASC")
 public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, AgregadorId> {
-
-    static final String FIND_ALL = "Agregador.findAll";
 
     @EmbeddedId
     private AgregadorId agregadorId;
@@ -41,7 +37,7 @@ public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, Ag
     }
 
     public Entidade addEntidade(ValorObjeto objeto) {
-        Entidade entidade = new Entidade(UUID.randomUUID().getMostSignificantBits(), this, objeto);
+        Entidade entidade = new Entidade(Math.abs(UUID.randomUUID().getMostSignificantBits()), this, objeto);
         if (!this.entidades.add(entidade)) {
             throw new IllegalStateException();
         }
