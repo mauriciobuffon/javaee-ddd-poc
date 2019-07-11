@@ -12,7 +12,7 @@ public interface Repository<T extends Entity<T, U>, U> {
 
     Collection<T> find(Predicate<T> criteria);
 
-    Collection<T> findAll();
+    Collection<T> findAll(int offset, int limit);
 
     void put(T obj);
 

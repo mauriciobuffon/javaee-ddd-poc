@@ -7,40 +7,29 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class ValorObjeto implements ValueObject<ValorObjeto> {
 
-    private String dado1;
-    private String dado2;
+    private String dado;
 
     protected ValorObjeto() {
     }
 
-    public ValorObjeto(String dado1, String dado2) {
-        this.dado1 = dado1;
-        this.dado2 = dado2;
+    public ValorObjeto(String dado) {
+        this();
+        this.dado = dado;
     }
 
-    public String getDado1() {
-        return dado1;
-    }
-
-    public String getDado2() {
-        return dado2;
+    public String getDado() {
+        return dado;
     }
 
     @Override
     public boolean sameValueAs(ValorObjeto other) {
-        if (!Objects.equals(this.dado1, other.dado1)) {
-            return false;
-        } else if (!Objects.equals(this.dado2, other.dado2)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.dado, other.dado);
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 23 * hash + Objects.hashCode(this.dado1);
-        hash = 23 * hash + Objects.hashCode(this.dado2);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.dado);
         return hash;
     }
 

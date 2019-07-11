@@ -19,6 +19,7 @@ public class EntidadeId implements ValueObject<EntidadeId> {
     }
 
     EntidadeId(AgregadorId agregadorId, long id) {
+        this();
         this.agregadorId = agregadorId;
         this.id = id;
     }

@@ -1,10 +1,7 @@
 package br.com.webit.dddpoc.domain;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -20,30 +17,19 @@ public class Entidade implements br.com.webit.dddpoc.infra.Entity<Entidade, Enti
     @ManyToOne
     @MapsId("agregadorId")
     private Agregador agregador;
-    @ElementCollection
-    private Set<ValorObjeto> objetos;
     @Embedded
     private ValorObjeto objeto;
-    private String dado;
     @Version
     private LocalDateTime version;
 
     protected Entidade() {
-        this.objetos = new HashSet<>();
     }
 
-    public Entidade(long id, Agregador agregador, ValorObjeto objeto, String dado) {
+    Entidade(long id, Agregador agregador, ValorObjeto objeto) {
         this();
         this.entidadeId = new EntidadeId(agregador.getId(), id);
         this.agregador = agregador;
         this.objeto = objeto;
-        this.dado = dado;
-    }
-
-    public void addObjeto(ValorObjeto objeto) {
-        if (!this.objetos.add(objeto)) {
-            throw new IllegalStateException();
-        }
     }
 
     @Override
@@ -51,16 +37,8 @@ public class Entidade implements br.com.webit.dddpoc.infra.Entity<Entidade, Enti
         return entidadeId;
     }
 
-    public Set<ValorObjeto> getObjetos() {
-        return objetos;
-    }
-
     public ValorObjeto getObjeto() {
         return objeto;
-    }
-
-    public String getDado() {
-        return dado;
     }
 
     @Override

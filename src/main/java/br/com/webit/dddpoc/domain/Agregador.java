@@ -4,46 +4,48 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 @Entity
+@NamedQuery(name = Agregador.FIND_ALL, query = "SELECT a FROM Agregador a ORDER BY a.agregadorId.id ASC")
 public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, AgregadorId> {
+
+    static final String FIND_ALL = "Agregador.findAll";
 
     @EmbeddedId
     private AgregadorId agregadorId;
-    @OneToMany
-    @JoinColumn(name = "agregador_id")
+    @OneToMany(mappedBy = "agregador", fetch = FetchType.EAGER)
     private Set<Entidade> entidades;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<ValorObjeto> objetos;
-    @Embedded
-    private ValorObjeto objeto;
     private String dado;
     @Version
     private LocalDateTime version;
 
     protected Agregador() {
-        this.entidades = new HashSet<>();
-        this.objetos = new HashSet<>();
     }
 
-    public Agregador(long id, ValorObjeto objeto, String dado) {
+    public Agregador(AgregadorId id, String dado) {
         this();
-        this.agregadorId = new AgregadorId(id);
-        this.objeto = objeto;
+        this.agregadorId = id;
+        this.entidades = new HashSet<>();
+        this.objetos = new HashSet<>();
         this.dado = dado;
     }
 
-    public void addEntidade(Entidade entidade) {
+    public Entidade addEntidade(ValorObjeto objeto) {
+        Entidade entidade = new Entidade(UUID.randomUUID().getMostSignificantBits(), this, objeto);
         if (!this.entidades.add(entidade)) {
             throw new IllegalStateException();
         }
+        return entidade;
     }
 
     public void addObjeto(ValorObjeto objeto) {
@@ -63,10 +65,6 @@ public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, Ag
 
     public Set<ValorObjeto> getObjetos() {
         return objetos;
-    }
-
-    public ValorObjeto getObjeto() {
-        return objeto;
     }
 
     public String getDado() {

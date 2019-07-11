@@ -19,15 +19,12 @@
     <entity class="Agregador">
         <attributes>
             <embedded-id name="agregadorId"/>
-            <one-to-many name="entidades" fetch="EAGER">
-                <!-- PARA EVITAR O JOIN TABLE ENTRE AGREGADOR E ENTIDADE -->
-                <join-column name="agregador_id"/>
+            <one-to-many name="entidades" mapped-by="agregador" fetch="EAGER">
                 <cascade>
                     <cascade-persist/>
                 </cascade>
             </one-to-many>
             <element-collection name="objetos" fetch="EAGER"/>
-            <embedded name="objeto"/>
             <version name="version"/>
         </attributes>
     </entity>
@@ -47,10 +44,13 @@
         <attributes>
             <embedded-id name="entidadeId"/>
             <many-to-one name="agregador" maps-id="agregadorId"/>
-            <element-collection name="objetos" fetch="EAGER"/>
             <embedded name="objeto"/>
             <version name="version"/>
         </attributes>
     </entity>
+
+    <named-query name="Agregador.findAll">
+        <query><![CDATA[SELECT a FROM Agregador a ORDER BY a.agregadorId.id ASC]]></query>
+    </named-query>
 
 </entity-mappings>

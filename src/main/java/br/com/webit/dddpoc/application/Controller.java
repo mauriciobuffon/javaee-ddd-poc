@@ -3,16 +3,19 @@ package br.com.webit.dddpoc.application;
 import br.com.webit.dddpoc.domain.Agregador;
 import br.com.webit.dddpoc.domain.AgregadorId;
 import br.com.webit.dddpoc.domain.AgregadorRepository;
-import br.com.webit.dddpoc.domain.Entidade;
 import br.com.webit.dddpoc.domain.ValorObjeto;
+import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 @Path("agregadores")
 @Produces("application/json")
@@ -22,6 +25,18 @@ public class Controller {
     @Inject
     private AgregadorRepository repository;
 
+    @GET
+    public Collection<Agregador> getAll(@QueryParam("offset") @DefaultValue("0") int offset, @QueryParam("limit") @DefaultValue("50") int limit) {
+        return repository.findAll(offset, limit);
+    }
+
+    @POST
+    public void post(String dado) {
+        AgregadorId id = repository.nextIdentity();
+        Agregador agregador = new Agregador(id, dado);
+        repository.put(agregador);
+    }
+
     @Path("{id : \\d+}")
     @GET
     public Agregador get(@PathParam("id") long id) {
@@ -29,29 +44,23 @@ public class Controller {
     }
 
     @Path("{id : \\d+}")
+    @DELETE
+    public void delete(@PathParam("id") long id) {
+        repository.remove(repository.find(new AgregadorId(id)).orElseThrow(NotFoundException::new));
+    }
+
+    @Path("{id : \\d+}/entidades")
     @POST
-    public void post(@PathParam("id") long id) {
-        Agregador agregador = new Agregador(id, new ValorObjeto("objeto1 agregador " + id, "objeto2 agregador" + id), "dado agregador " + id);
-
-        for (int i : new int[]{1, 2, 3}) {
-            Entidade entidade = new Entidade(i, agregador, new ValorObjeto("objeto1 entidade " + i + " agregador " + id, "objeto2 entidade " + i + " agregador " + id), "dado entidade " + i + " agregador " + id);
-
-            for (int j : new int[]{1, 2, 3}) {
-                entidade.addObjeto(new ValorObjeto("objeto1 objetos[" + j + "] entidade " + i + " agregador " + id, "objeto2 objetos[" + j + "] entidade " + i + " agregador " + id));
-            }
-
-            agregador.addEntidade(entidade);
-            agregador.addObjeto(new ValorObjeto("objeto1 objetos[" + i + "] agregador " + id, "objeto2 objetos[" + i + "] agregador " + id));
-        }
-
+    public void postEntidade(@PathParam("id") long id, String dado) {
+        Agregador agregador = repository.find(new AgregadorId(id)).orElseThrow(NotFoundException::new);
+        agregador.addEntidade(new ValorObjeto(dado));
         repository.put(agregador);
     }
 
-    @Path("{idAgregador : \\d+}/entidades/{id : \\d+}")
+    @Path("{id : \\d+}/objetos")
     @POST
-    public void postEntidade(@PathParam("idAgregador") long idAgregador, @PathParam("id") long id) {
-        Agregador agregador = repository.find(new AgregadorId(idAgregador)).orElseThrow(NotFoundException::new);
-        agregador.addEntidade(new Entidade(id, agregador, new ValorObjeto("objeto1 entidade " + id + " agregador " + idAgregador, "objeto2 entidade " + id + " agregador " + idAgregador), "dado entidade " + id + " agregador " + idAgregador));
-        repository.put(agregador);
+    public void postObjeto(@PathParam("id") long id, String dado) {
+        Agregador agregador = repository.find(new AgregadorId(id)).orElseThrow(NotFoundException::new);
+        agregador.addObjeto(new ValorObjeto(dado));
     }
 }
