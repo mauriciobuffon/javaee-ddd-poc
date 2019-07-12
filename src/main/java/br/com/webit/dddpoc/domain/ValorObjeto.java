@@ -17,7 +17,8 @@ public class ValorObjeto implements ValueObject<ValorObjeto> {
         this.dado = dado;
     }
 
-    public String getDado() {
+    @Override
+    public String toString() {
         return dado;
     }
 

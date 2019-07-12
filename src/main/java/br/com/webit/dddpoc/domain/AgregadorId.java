@@ -16,8 +16,9 @@ public class AgregadorId implements ValueObject<AgregadorId> {
         this.id = id;
     }
 
-    public long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return Long.toString(id);
     }
 
     @Override

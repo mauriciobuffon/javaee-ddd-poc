@@ -1,4 +1,4 @@
-package br.com.webit.dddpoc.application;
+package br.com.webit.dddpoc.application.setup;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

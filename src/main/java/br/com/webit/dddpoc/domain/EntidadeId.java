@@ -25,6 +25,11 @@ public class EntidadeId implements ValueObject<EntidadeId> {
     }
 
     @Override
+    public String toString() {
+        return Long.toString(id);
+    }
+
+    @Override
     public boolean sameValueAs(EntidadeId other) {
         if (this.id != other.id) {
             return false;
