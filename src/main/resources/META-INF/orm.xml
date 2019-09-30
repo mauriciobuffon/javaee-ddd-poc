@@ -19,7 +19,7 @@
     <entity class="Agregador">
         <attributes>
             <embedded-id name="agregadorId"/>
-            <one-to-many name="entidades" mapped-by="agregador" fetch="EAGER">
+            <one-to-many name="entidades" mapped-by="agregador" orphan-removal="true">
                 <cascade>
                     <cascade-persist/>
                 </cascade>

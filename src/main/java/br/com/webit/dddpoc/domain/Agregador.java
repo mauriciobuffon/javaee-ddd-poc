@@ -17,7 +17,7 @@ public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, Ag
 
     @EmbeddedId
     private AgregadorId agregadorId;
-    @OneToMany(mappedBy = "agregador", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "agregador", orphanRemoval = true)
     private Set<Entidade> entidades;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<ValorObjeto> objetos;

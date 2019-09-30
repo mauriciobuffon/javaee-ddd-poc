@@ -6,9 +6,9 @@
         <class-name>org.apache.derby.jdbc.ClientDataSource</class-name>
         <server-name>localhost</server-name>
         <port-number>1527</port-number>
-        <database-name>poc</database-name>
+        <database-name>${project.build.finalName}</database-name>
         <user>APP</user>
-        <password>123</password>
+        <password><![CDATA[secret]]></password>
     </data-source>
 
 </web-app>
