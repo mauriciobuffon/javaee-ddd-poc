@@ -17,23 +17,21 @@ public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, Ag
 
     @EmbeddedId
     private AgregadorId agregadorId;
-    @OneToMany(mappedBy = "agregador", orphanRemoval = true)
+    @OneToMany(mappedBy = "agregador", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Entidade> entidades;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<ValorObjeto> objetos;
-    private String dado;
     @Version
     private LocalDateTime version;
 
     protected Agregador() {
     }
 
-    public Agregador(AgregadorId id, String dado) {
+    public Agregador(AgregadorId id) {
         this();
         this.agregadorId = id;
         this.entidades = new HashSet<>();
         this.objetos = new HashSet<>();
-        this.dado = dado;
     }
 
     public Entidade addEntidade(ValorObjeto objeto) {
@@ -61,10 +59,6 @@ public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, Ag
 
     public Set<ValorObjeto> getObjetos() {
         return objetos;
-    }
-
-    public String getDado() {
-        return dado;
     }
 
     @Override

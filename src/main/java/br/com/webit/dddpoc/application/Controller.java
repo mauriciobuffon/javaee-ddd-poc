@@ -31,9 +31,9 @@ public class Controller {
     }
 
     @POST
-    public void post(String dado) {
+    public void post() {
         AgregadorId id = repository.nextIdentity();
-        Agregador agregador = new Agregador(id, dado);
+        Agregador agregador = new Agregador(id);
         repository.put(agregador);
     }
 

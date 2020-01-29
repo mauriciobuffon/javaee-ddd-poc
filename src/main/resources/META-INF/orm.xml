@@ -19,13 +19,19 @@
     <entity class="Agregador">
         <attributes>
             <embedded-id name="agregadorId"/>
-            <one-to-many name="entidades" mapped-by="agregador" orphan-removal="true">
+            <one-to-many name="entidades" mapped-by="agregador" orphan-removal="true" fetch="EAGER">
                 <cascade>
                     <cascade-persist/>
                 </cascade>
             </one-to-many>
-            <element-collection name="objetos" fetch="EAGER"/>
-            <version name="version"/>
+            <element-collection name="objetos" fetch="EAGER">
+                <attribute-override name="dado">
+                    <column nullable="false"/>
+                </attribute-override>
+            </element-collection>
+            <version name="version">
+                <column nullable="false"/>
+            </version>
         </attributes>
     </entity>
 
@@ -44,8 +50,14 @@
         <attributes>
             <embedded-id name="entidadeId"/>
             <many-to-one name="agregador" maps-id="agregadorId"/>
-            <embedded name="objeto"/>
-            <version name="version"/>
+            <embedded name="objeto">
+                <attribute-override name="dado">
+                    <column nullable="false"/>
+                </attribute-override>
+            </embedded>
+            <version name="version">
+                <column nullable="false"/>
+            </version>
         </attributes>
     </entity>
 
