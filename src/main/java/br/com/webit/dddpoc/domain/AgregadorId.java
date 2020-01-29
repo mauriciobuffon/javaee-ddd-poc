@@ -1,10 +1,12 @@
 package br.com.webit.dddpoc.domain;
 
-import br.com.webit.dddpoc.infra.ValueObject;
+import br.com.webit.dddpoc.application.adapters.AgregadorIdAdapter;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class AgregadorId implements ValueObject<AgregadorId> {
+@JsonbTypeAdapter(AgregadorIdAdapter.class)
+public class AgregadorId implements br.com.webit.dddpoc.infra.ValueObject<AgregadorId> {
 
     private long id;
 
@@ -14,10 +16,6 @@ public class AgregadorId implements ValueObject<AgregadorId> {
     public AgregadorId(long id) {
         this();
         this.id = id;
-    }
-
-    public long getId() {
-        return id;
     }
 
     @Override
@@ -44,5 +42,10 @@ public class AgregadorId implements ValueObject<AgregadorId> {
             return false;
         }
         return sameValueAs((AgregadorId) obj);
+    }
+
+    @Override
+    public String toString() {
+        return Long.toString(id);
     }
 }

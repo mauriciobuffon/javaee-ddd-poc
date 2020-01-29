@@ -1,14 +1,16 @@
 package br.com.webit.dddpoc.domain;
 
-import br.com.webit.dddpoc.infra.ValueObject;
+import br.com.webit.dddpoc.application.adapters.EntidadeIdAdapter;
 import java.util.Objects;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
 @Embeddable
-public class EntidadeId implements ValueObject<EntidadeId> {
+@JsonbTypeAdapter(EntidadeIdAdapter.class)
+public class EntidadeId implements br.com.webit.dddpoc.infra.ValueObject<EntidadeId> {
 
     @Embedded
     @AttributeOverride(name = "id", column = @Column(name = "agregador_id"))
@@ -54,5 +56,10 @@ public class EntidadeId implements ValueObject<EntidadeId> {
             return false;
         }
         return sameValueAs((EntidadeId) obj);
+    }
+
+    @Override
+    public String toString() {
+        return Long.toString(id);
     }
 }
