@@ -1,10 +1,12 @@
 package br.com.webit.dddpoc.domain;
 
+import br.com.webit.dddpoc.application.adapters.AgregadorAdapter;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
 @Entity
+@JsonbTypeAdapter(AgregadorAdapter.class)
 public class Agregador implements br.com.webit.dddpoc.infra.Entity<Agregador, AgregadorId> {
 
     @EmbeddedId
