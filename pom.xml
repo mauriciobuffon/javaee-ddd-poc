@@ -4,7 +4,7 @@
 
     <groupId>br.com.webit</groupId>
     <artifactId>javaee-ddd-poc</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
@@ -15,7 +15,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/mauriciobuffon/javaee-ddd-poc.git</developerConnection>
-        <tag>v1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
