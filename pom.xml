@@ -15,6 +15,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/mauriciobuffon/javaee-ddd-poc.git</developerConnection>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
@@ -57,5 +58,24 @@
 
         <finalName>ddd-poc</finalName>
     </build>
+
+    <profiles>
+        <profile>
+            <id>webit-nexus</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>webit-snapshots</id>
+                    <url>http://localhost:8081/repository/maven-snapshots/</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </snapshotRepository>
+                <repository>
+                    <id>webit-releases</id>
+                    <url>http://localhost:8081/repository/maven-releases/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
 </project>
